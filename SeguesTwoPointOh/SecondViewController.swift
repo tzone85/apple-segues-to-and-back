@@ -8,12 +8,25 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+protocol  CanReceive {
+    func dataReceived(data : String)
+}
 
+class SecondViewController: UIViewController {
+    
+    var delegate : CanReceive?
+    
+    //the data that's going to be passed through from the first view
+    var data = ""
+    
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var textField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        label.text = data
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,14 +35,16 @@ class SecondViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func sendBackButtonPressed(_ sender: Any) {
+        //if role of the delegate is nil, then this is not triggered
+        delegate?.dataReceived(data: textField.text!)
+        
+        //dismiss current view and go to the previous one in an animated fashion
+        dismiss(animated: true, completion: nil)
     }
-    */
-
+    
 }
